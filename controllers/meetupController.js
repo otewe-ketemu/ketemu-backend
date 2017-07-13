@@ -115,7 +115,7 @@ methods.cancelMeetup = (req, res) => {
             res.send(data)
         })
     })
-}
+} //cancelMeetup
 
 methods.finalizeMeetup = (req, res) => {
     Meetup.findById(req.params.id)
