@@ -68,6 +68,8 @@ describe('user', () => {
         res.body.should.be.a('array')
         res.body.length.should.equal(1)
 
+        // res.body.should.have.property('object')
+
         done()
       })
     })
