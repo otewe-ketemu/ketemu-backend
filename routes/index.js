@@ -3,6 +3,11 @@ const router = express.Router()
 let userController = require('../controllers/userController')
 let meetupController = require('../controllers/meetupController')
 
+// server is alive
+router.get('/', (req, res) => {
+  res.send('OTEWE!')
+})
+
 // NOTE: user
 router.post('/signup', userController.signUp)
 router.post('/signin', userController.signIn)
