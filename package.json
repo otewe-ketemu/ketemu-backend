@@ -1,0 +1,11 @@
+{
+  "name": "ketemu-backend",
+  "version": "1.0.0",
+  "main": "app.js",
+  "repository": "https://github.com/otewe-ketemu/ketemu-backend.git",
+  "author": "tim-otewe",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.15.3"
+  }
+}
