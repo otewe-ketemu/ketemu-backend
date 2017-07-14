@@ -91,7 +91,7 @@ methods.getHomeAddressGeolocation = (req, res) => {
   User.findById(req.params.id, (err, record) => {
     if (err) res.json({err})
     // console.log('Detail User success');
-    // console.log(record);
+    // console.log(record.homeAddressGeolocation);
     res.json(record.homeAddressGeolocation)
   })
 } //getHomeAddressGeolocation
@@ -124,7 +124,8 @@ methods.editUser = (req, res) => {
           "homeAddressName": req.body.homeAddressName || response.homeAddressName,
           "homeAddressGeolocation": req.body.homeAddressGeolocation || response.homeAddressGeolocation,
           "officeAddressName": req.body.officeAddressName || response.officeAddressName,
-          "officeAddressGeolocation": req.body.officeAddressGeolocation || response.officeAddressGeolocation
+          "officeAddressGeolocation": req.body.officeAddressGeolocation || response.officeAddressGeolocation,
+          "updatedDate": Date.now()
         }
       }, {
         new: true
