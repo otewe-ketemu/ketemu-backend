@@ -8,8 +8,11 @@ require('dotenv').config()
 
 // mongoose.connect('mongodb://localhost/ketemu-backend')
 
+let development = 'mongodb://arahito:ltcjE3j2qONnSin8@otewe-shard-00-00-gvusd.mongodb.net:27017,otewe-shard-00-01-gvusd.mongodb.net:27017,otewe-shard-00-02-gvusd.mongodb.net:27017/Otewe?ssl=true&replicaSet=Otewe-shard-0&authSource=admin'
+// let development = 'mongodb://localhost/ketemu-backend'
+
 let db_config = {
-    development: 'mongodb://localhost/ketemu-backend',
+    development,
     test: 'mongodb://localhost/ketemu-backend-test'
 }
 
