@@ -9,9 +9,19 @@ let meetupSchema = new Schema({
         type: String,
         enum: ['coworking space', 'library', 'bar', 'park', 'restaurant', 'hotel', 'coffee shop', 'shopping mall']
     },
-    participants: [{
+    creator: {
         type: Schema.Types.ObjectId,
         ref: 'User'
+    },
+    participants: [{
+      user: {
+          type: Schema.Types.ObjectId,
+          ref: 'User'
+      },
+      status: {
+        type: String,
+        default: 'pending'
+      }
     }],
     status: {
         type: String,
