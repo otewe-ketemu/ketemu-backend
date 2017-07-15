@@ -9,6 +9,10 @@ let meetupSchema = new Schema({
         type: String,
         enum: ['coworking space', 'library', 'bar', 'park', 'restaurant', 'hotel', 'coffee shop', 'shopping mall']
     },
+    creator: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
     participants: [{
         type: Schema.Types.ObjectId,
         ref: 'User'

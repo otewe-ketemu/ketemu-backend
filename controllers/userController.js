@@ -154,6 +154,7 @@ methods.editUser = (req, res) => {
 } //editUser
 
 methods.updateAvatarUrl = (req, res) => {
+  // console.log(req.body.avatar)
   User.findById(req.params.id, (err, record) => {
     if (err) res.json({err})
     record.avatarURL = req.body.avatar
