@@ -21,7 +21,12 @@ methods.createMeetup = (req, res) => {
         .populate('participants creator')
         .exec((err, record) => {
             if (err) res.json({err})
-            res.json(record)
+            record.participants.map(user => {
+              return ({...user, status: 'pending'})
+            })
+            record.save((error, result) => {
+              res.json(result)
+            })
         })
     })
 } //createMeetup
