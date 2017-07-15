@@ -7,6 +7,7 @@ methods.createMeetup = (req, res) => {
         description: req.body.description,
         time: req.body.time,
         typePlaces: req.body.typePlaces,
+        creator: req.body.creator,
         participants: req.body.participants,
         location60: [],
         location30: [],
@@ -19,7 +20,7 @@ methods.createMeetup = (req, res) => {
         // console.log(data);
 
         Meetup.findById(data._id)
-        .populate('participants.user')
+        .populate('creator participants.user')
         .exec((err, record) => {
             if (err) res.json({err})
             res.json(record)
@@ -29,7 +30,7 @@ methods.createMeetup = (req, res) => {
 
 methods.getAllMeetup = (req, res) => {
     Meetup.find({})
-    .populate('participants.user')
+    .populate('creator participants.user')
     .exec((err, records) => {
         if (err) res.json({err})
         // console.log('Data all Meetup success');
@@ -39,17 +40,8 @@ methods.getAllMeetup = (req, res) => {
 } // getAllMeetup
 
 methods.getDetailMeetup = (req, res) => {
-    // Meetup.findById(req.params.id)
-    // .populate('participants.user')
-    // .exec((err, record) => {
-    //     if (err) res.json({err})
-    //     // console.log('Detail Meetup success');
-    //     // console.log(record);
-    //     res.json(record)
-    // })
-
     Meetup.findById(req.params.id)
-    .populate('participants.user')
+    .populate('creator participants.user')
     .exec((err, record) => {
         if (err) res.json({err})
         res.json(record)
@@ -83,7 +75,7 @@ methods.editMeetup = (req, res) => {
             if (err) res.json({err})
 
             Meetup.findById(result._id)
-            .populate('participants.user')
+            .populate('creator participants.user')
             .exec((error, record) => {
                 if (error) res.json({error})
                 // console.log('Detail Meetup success');
@@ -97,7 +89,7 @@ methods.editMeetup = (req, res) => {
 
 methods.updateParticipants = (req, res) => {
     Meetup.findById(req.params.id)
-    .populate('participants.user')
+    .populate('creator participants.user')
     .exec((err, record) => {
         if (err) res.json({err})
         // console.log('Detail Meetup success');
@@ -105,7 +97,7 @@ methods.updateParticipants = (req, res) => {
         record.participants.push(req.body.participants)
         record.save(err => {
             Meetup.findById(req.params.id)
-                .populate('participants.user')
+                .populate('creator participants.user')
                 .exec((err, record) => {
                     if (err) res.json({err})
                     // console.log('Detail Meetup success');
@@ -118,7 +110,7 @@ methods.updateParticipants = (req, res) => {
 
 methods.cancelMeetup = (req, res) => {
     Meetup.findById(req.params.id)
-    .populate('participants.user')
+    .populate('creator participants.user')
     .exec((err, record) => {
         if (err) res.json({err})
         // console.log('Detail Meetup success');
@@ -133,7 +125,7 @@ methods.cancelMeetup = (req, res) => {
 
 methods.finalizeMeetup = (req, res) => {
     Meetup.findById(req.params.id)
-    .populate('participants.user')
+    .populate('creator participants.user')
     .exec((err, record) => {
         if (err) res.json({err})
         // console.log('Detail Meetup success');
