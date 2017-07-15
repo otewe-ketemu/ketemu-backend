@@ -194,6 +194,7 @@ describe('USER', () => {
               res.body.name.should.equal('Ucok Pardamean')
               res.body.username.should.equal('pardamean')
               res.body.email.should.equal('pardamean@gmail.com')
+              res.body.avatarURL.should.equal('https://cdn3.iconfinder.com/data/icons/social-messaging-productivity-6/128/profile-male-circle2-512.png')
               res.body.officeAddressName.should.equal('Jalan Sultan Iskandar Muda, No. 55')
               res.body.homeAddressName.should.equal('Jalan Tanah Kusir 4, No. 10')
               // res.body.officeAddressGeolocation.should.equal([-6.260846, 106.7806537])
