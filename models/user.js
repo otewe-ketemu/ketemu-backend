@@ -16,7 +16,10 @@ let userSchema = new Schema({
         type: String,
         required: true
     },
-    avatarURL: String,
+    avatarURL: {
+      type: String,
+      default: 'https://cdn3.iconfinder.com/data/icons/social-messaging-productivity-6/128/profile-male-circle2-512.png'
+    },
     homeAddressName: {
         type: String,
         default: ''
