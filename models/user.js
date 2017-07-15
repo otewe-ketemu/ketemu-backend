@@ -16,6 +16,7 @@ let userSchema = new Schema({
         type: String,
         required: true
     },
+    avatarURL: String,
     homeAddressName: {
         type: String,
         default: ''

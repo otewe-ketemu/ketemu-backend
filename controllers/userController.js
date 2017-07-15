@@ -10,13 +10,14 @@ methods.signUp = (req, res) => {
     name: req.body.name,
     username: req.body.username,
     password: bCrypt.hashSync(pwd, saltRounds),
-    email: req.body.email
+    email: req.body.email,
+    avatarURL: 'https://cdn3.iconfinder.com/data/icons/social-messaging-productivity-6/128/profile-male-circle2-512.png'
   })
   // console.log('password: *** ', newUser.password)
   if (pwd.length >= 5) {
     newUser.save((err, data) => {
       if (err) res.json({err})
-      
+
       // console.log('SignUp success');
       // console.log(data);
       res.json({
@@ -121,6 +122,7 @@ methods.editUser = (req, res) => {
           "username": req.body.username || response.username,
           "password": bCrypt.hashSync(pwdUser, saltRounds) || response.password,
           "email": req.body.email || response.email,
+          "avatarURL": req.body.avatarURL || response.avatarURL,
           "homeAddressName": req.body.homeAddressName || response.homeAddressName,
           "homeAddressGeolocation": req.body.homeAddressGeolocation || response.homeAddressGeolocation,
           "officeAddressName": req.body.officeAddressName || response.officeAddressName,
