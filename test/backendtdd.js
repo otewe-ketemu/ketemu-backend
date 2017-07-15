@@ -47,6 +47,7 @@ describe('USER', () => {
         res.body.data.should.have.property('name')
         res.body.data.should.have.property('password')
         res.body.data.should.have.property('email')
+        res.body.data.should.have.property('avatarURL')
         res.body.data.should.have.property('_id')
         res.body.data.should.have.property('updatedDate')
         res.body.data.should.have.property('createdDate')
@@ -59,6 +60,7 @@ describe('USER', () => {
         res.body.data.name.should.equal('Butet Silaen')
         res.body.data.email.should.equal('butet@gmail.com')
         res.body.data.username.should.equal('butet')
+        res.body.data.avatarURL.should.equal('https://cdn3.iconfinder.com/data/icons/social-messaging-productivity-6/128/profile-male-circle2-512.png')
 
         res.body.data.password.should.not.equal('butet')
         done()
@@ -106,6 +108,7 @@ describe('USER', () => {
         res.body[0].name.should.equal('Butet Silaen')
         res.body[0].username.should.equal('butet')
         res.body[0].email.should.equal('butet@gmail.com')
+        res.body[0].avatarURL.should.equal('https://cdn3.iconfinder.com/data/icons/social-messaging-productivity-6/128/profile-male-circle2-512.png')
 
         done()
       })
@@ -126,6 +129,7 @@ describe('USER', () => {
           res.body.name.should.equal('Butet Silaen')
           res.body.username.should.equal('butet')
           res.body.email.should.equal('butet@gmail.com')
+          res.body.avatarURL.should.equal('https://cdn3.iconfinder.com/data/icons/social-messaging-productivity-6/128/profile-male-circle2-512.png')
 
           done()
       })
@@ -167,18 +171,39 @@ describe('USER', () => {
     // NOTE: edituser
     describe('PUT - update User', () => {
         it('should update the User', (done) => {
-        chai.request(server)
-        .put(`/edituser/${idUser}`)
-        .send({
-            name: "Ucok Pardamean",
-            username: "pardamean",
-            password: "pardamean",
-            email: "pardamean@gmail.com",
-            officeAddressName: "Jalan Sultan Iskandar Muda, No. 55",
-            officeAddressGeolocation: [-6.260846, 106.7806537],
-            homeAddressName: "Jalan Tanah Kusir 4, No. 10",
-            homeAddressGeolocation: [-6.2600141, 106.7793779],
-            updatedDate: Date.now()
+          chai.request(server)
+          .put(`/edituser/${idUser}`)
+          .send({
+              name: "Ucok Pardamean",
+              username: "pardamean",
+              password: "pardamean",
+              email: "pardamean@gmail.com",
+              officeAddressName: "Jalan Sultan Iskandar Muda, No. 55",
+              officeAddressGeolocation: [-6.260846, 106.7806537],
+              homeAddressName: "Jalan Tanah Kusir 4, No. 10",
+              homeAddressGeolocation: [-6.2600141, 106.7793779],
+              updatedDate: Date.now()
+          })
+          .end((error, res) => {
+
+              res.should.have.status(200)
+              // console.log(res.body);
+
+              res.body.should.be.a('object')
+
+              res.body.name.should.equal('Ucok Pardamean')
+              res.body.username.should.equal('pardamean')
+              res.body.email.should.equal('pardamean@gmail.com')
+              res.body.avatarURL.should.equal('https://cdn3.iconfinder.com/data/icons/social-messaging-productivity-6/128/profile-male-circle2-512.png')
+              res.body.officeAddressName.should.equal('Jalan Sultan Iskandar Muda, No. 55')
+              res.body.homeAddressName.should.equal('Jalan Tanah Kusir 4, No. 10')
+              // res.body.officeAddressGeolocation.should.equal([-6.260846, 106.7806537])
+              // res.body.homeAddressGeolocation.should.equal([-6.2600141, 106.7793779])
+
+              res.body.password.should.not.equal('pardamean')
+
+              done()
+          })
         })
         .end((error, res) => {
 
@@ -196,9 +221,36 @@ describe('USER', () => {
             // res.body.homeAddressGeolocation.should.equal([-6.2600141, 106.7793779])
 
             res.body.password.should.not.equal('pardamean')
+    })
 
-            done()
-        })
+    // NOTE: updateAvatar
+    describe('PUT - update Avatar User', () => {
+        it('should update avatar the User', (done) => {
+          chai.request(server)
+          .put(`/updateavatar/${idUser}`)
+          .send({
+              avatarURL: "http://tirodepartida.pt/atletas/persona.png"
+          })
+          .end((error, res) => {
+
+              res.should.have.status(200)
+              // console.log(res.body);
+
+              res.body.should.be.a('object')
+
+              res.body.name.should.equal('Ucok Pardamean')
+              res.body.username.should.equal('pardamean')
+              res.body.email.should.equal('pardamean@gmail.com')
+              res.body.avatarURL.should.equal('http://tirodepartida.pt/atletas/persona.png')
+              res.body.officeAddressName.should.equal('Jalan Sultan Iskandar Muda, No. 55')
+              res.body.homeAddressName.should.equal('Jalan Tanah Kusir 4, No. 10')
+              // res.body.officeAddressGeolocation.should.equal([-6.260846, 106.7806537])
+              // res.body.homeAddressGeolocation.should.equal([-6.2600141, 106.7793779])
+
+              res.body.password.should.not.equal('pardamean')
+
+              done()
+          })
         })
     })
 })

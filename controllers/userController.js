@@ -10,13 +10,13 @@ methods.signUp = (req, res) => {
     name: req.body.name,
     username: req.body.username,
     password: bCrypt.hashSync(pwd, saltRounds),
-    email: req.body.email
+    email: req.body.email,
   })
   // console.log('password: *** ', newUser.password)
   if (pwd.length >= 5) {
     newUser.save((err, data) => {
       if (err) res.json({err})
-      
+
       // console.log('SignUp success');
       // console.log(data);
       res.json({
@@ -48,24 +48,39 @@ methods.signIn = (req, res) => {
     // console.log('Record data user login');
     // console.log(record);
     // console.log(bCrypt.compareSync(pwd, record.password));
-    if (bCrypt.compareSync(pwd, record.password)) {
-      let token = jwt.sign({
-        id: record._id,
-        username: record.username,
-        email: record.email
-      }, process.env.SECRET_KEY, { expiresIn: '1d'})
-      // console.log('token login: '+token);
-      res.json({
-        message: 'SignIn success',
-        id: record._id,
-        username: record.username,
-        token
+    if (req.body.username !== record.username) {
+      res.status(404).json({
+        status: false,
+        message: 'Please input the correct username!'
       })
     } else {
-      res.json({
-        message: "Your password don't match"
-      })
+      if (bCrypt.compareSync(pwd, record.password)) {
+        let token = jwt.sign({
+          id: record._id,
+          username: record.username,
+          email: record.email
+        }, process.env.SECRET_KEY, { expiresIn: '1d'})
+        // console.log('token login: '+token);
+        res.json({
+          message: 'SignIn success',
+          id: record._id,
+          username: record.username,
+          token
+        })
+      } else {
+        res.status(404).json({
+          status: false,
+          message: "Your password don't match"
+        })
+      }
     }
+  })
+  .catch(error => {
+    console.log('asasasasasasasasa')
+    res.status(404).json({
+      status: false,
+      message: 'Please input the correct username and password!'
+    })
   })
 } //signin biasa
 
@@ -137,6 +152,18 @@ methods.editUser = (req, res) => {
       })
     })
 } //editUser
+
+methods.updateAvatarUrl = (req, res) => {
+  // console.log(req.body.avatar)
+  User.findById(req.params.id, (err, record) => {
+    if (err) res.json({err})
+    record.avatarURL = req.body.avatar
+    record.save((err, data) => {
+        console.log('avatar di controller: ***', data)
+        res.json(data)
+    })
+  })
+}
 
 methods.deleteUserById = (req, res) => {
     User.findByIdAndRemove(req.params.id, (err, record) => {

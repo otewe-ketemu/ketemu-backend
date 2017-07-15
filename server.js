@@ -5,6 +5,9 @@ const logger = require('morgan')
 const bodyParser = require('body-parser')
 const index = require('./routes/index')
 require('dotenv').config()
+const cors = require('cors')
+
+app.use(cors())
 
 // mongoose.connect('mongodb://localhost/ketemu-backend')
 
