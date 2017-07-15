@@ -55,7 +55,7 @@ describe('USER', () => {
         res.body.data.should.have.property('homeAddressGeolocation')
         res.body.data.should.have.property('homeAddressName')
         res.body.data.should.have.property('username')
-        
+
         res.body.data.name.should.equal('Butet Silaen')
         res.body.data.email.should.equal('butet@gmail.com')
         res.body.data.username.should.equal('butet')
@@ -83,12 +83,12 @@ describe('USER', () => {
         res.body.should.have.property('id')
         res.body.should.have.property('username')
         res.body.should.have.property('token')
-        
+
         res.body.message.should.equal('SignIn success')
         res.body.username.should.equal('butet')
 
-        done()
       })
+      done()
     })
   })
 
@@ -122,7 +122,7 @@ describe('USER', () => {
 
           res.should.have.status(200)
           res.body.should.be.a('object')
-          
+
           res.body.name.should.equal('Butet Silaen')
           res.body.username.should.equal('butet')
           res.body.email.should.equal('butet@gmail.com')
@@ -186,7 +186,7 @@ describe('USER', () => {
             // console.log(res.body);
 
             res.body.should.be.a('object')
-          
+
             res.body.name.should.equal('Ucok Pardamean')
             res.body.username.should.equal('pardamean')
             res.body.email.should.equal('pardamean@gmail.com')
@@ -300,7 +300,7 @@ describe('MEETUP', () => {
 
             res.should.have.status(200)
             res.body.should.be.a('object')
-            
+
             res.body.should.have.property('title')
             res.body.should.have.property('description')
             res.body.should.have.property('time')
@@ -318,7 +318,7 @@ describe('MEETUP', () => {
             res.body.description.should.equal('Rapat Paripurna bersama para koruptor')
             res.body.typePlaces.should.equal('bar')
             res.body.status.should.equal('TBA')
-            
+
             res.body.participants.should.be.a('array')
 
             done()
@@ -348,7 +348,7 @@ describe('MEETUP', () => {
             // console.log(res.body);
 
             res.body.should.be.a('object')
-            
+
             res.body.should.have.property('title')
             res.body.should.have.property('description')
             res.body.should.have.property('time')
@@ -386,7 +386,7 @@ describe('MEETUP', () => {
             // console.log(res.body);
 
             res.body.should.be.a('object')
-            
+
             res.body.should.have.property('title')
             res.body.should.have.property('description')
             res.body.should.have.property('time')
@@ -423,7 +423,7 @@ describe('MEETUP', () => {
 
             res.should.have.status(200)
             res.body.should.be.a('object')
-            
+
             res.body.should.have.property('title')
             res.body.should.have.property('description')
             res.body.should.have.property('time')
@@ -441,7 +441,7 @@ describe('MEETUP', () => {
             res.body.description.should.equal('Update Rapat Pers diadakan pada hari Senin')
             res.body.typePlaces.should.equal('park')
             res.body.status.should.equal('TBA')
-            
+
             res.body.participants.should.be.a('array')
 
             done()
@@ -462,7 +462,7 @@ describe('MEETUP', () => {
 
             res.should.have.status(200)
             res.body.should.be.a('object')
-            
+
             res.body.should.have.property('title')
             res.body.should.have.property('description')
             res.body.should.have.property('time')
@@ -480,7 +480,7 @@ describe('MEETUP', () => {
             res.body.description.should.equal('Update Rapat Pers diadakan pada hari Senin')
             res.body.typePlaces.should.equal('park')
             res.body.status.should.equal('upcoming')
-            
+
             res.body.participants.should.be.a('array')
 
             done()
@@ -498,7 +498,7 @@ describe('MEETUP', () => {
 
             res.should.have.status(200)
             res.body.should.be.a('object')
-            
+
             res.body.should.have.property('title')
             res.body.should.have.property('description')
             res.body.should.have.property('time')
@@ -516,7 +516,7 @@ describe('MEETUP', () => {
             res.body.description.should.equal('Update Rapat Pers diadakan pada hari Senin')
             res.body.typePlaces.should.equal('park')
             res.body.status.should.equal('upcoming')
-            
+
             res.body.participants.should.be.a('array')
             res.body.participants[0].should.equal(idUser)
 
