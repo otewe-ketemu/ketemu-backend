@@ -16,7 +16,7 @@ methods.signUp = (req, res) => {
   if (pwd.length >= 5) {
     newUser.save((err, data) => {
       if (err) res.json({err})
-      
+
       // console.log('SignUp success');
       // console.log(data);
       res.json({
@@ -45,27 +45,38 @@ methods.signIn = (req, res) => {
     username: req.body.username
   })
   .then(record => {
-    // console.log('Record data user login');
-    // console.log(record);
-    // console.log(bCrypt.compareSync(pwd, record.password));
-    if (bCrypt.compareSync(pwd, record.password)) {
-      let token = jwt.sign({
-        id: record._id,
-        username: record.username,
-        email: record.email
-      }, process.env.SECRET_KEY, { expiresIn: '1d'})
-      // console.log('token login: '+token);
-      res.json({
-        message: 'SignIn success',
-        id: record._id,
-        username: record.username,
-        token
-      })
+    if (req.body.username !== record.username) {
+        res.status(404).json({
+          status: false,
+          message: 'Please input the correct username!'
+        })
     } else {
-      res.json({
-        message: "Your password don't match"
-      })
+      if (bCrypt.compareSync(pwd, record.password)) {
+        let token = jwt.sign({
+          id: record._id,
+          username: record.username,
+          email: record.email
+        }, process.env.SECRET_KEY, { expiresIn: '1d'})
+        // console.log('token login: '+token);
+        res.json({
+          message: 'SignIn success',
+          id: record._id,
+          username: record.username,
+          token
+        })
+      } else {
+        res.status(404).json({
+          status: false,
+          message: 'Please input the correct password!'
+        })
+      }
     }
+  })
+  .catch(error => {
+    res.status(404).json({
+      status: false,
+      message: 'Please input the correct username and password!'
+    })
   })
 } //signin biasa
 
@@ -121,6 +132,7 @@ methods.editUser = (req, res) => {
           "username": req.body.username || response.username,
           "password": bCrypt.hashSync(pwdUser, saltRounds) || response.password,
           "email": req.body.email || response.email,
+          "avatarURL": req.body.avatarURL || response.avatarURL,
           "homeAddressName": req.body.homeAddressName || response.homeAddressName,
           "homeAddressGeolocation": req.body.homeAddressGeolocation || response.homeAddressGeolocation,
           "officeAddressName": req.body.officeAddressName || response.officeAddressName,
@@ -137,6 +149,18 @@ methods.editUser = (req, res) => {
       })
     })
 } //editUser
+
+methods.updateAvatarUrl = (req, res) => {
+  console.log('??????????????');
+  User.findById(req.params.id, (err, record) => {
+    if(err) res.json({err})
+    record.avatarURL = req.body.avatar
+    record.save((error, data) => {
+      console.log('AVATAR di CONTROLLER ***', data);
+      res.json(data)
+    })
+  })
+}
 
 methods.deleteUserById = (req, res) => {
     User.findByIdAndRemove(req.params.id, (err, record) => {
