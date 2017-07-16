@@ -17,6 +17,8 @@ methods.signUp = (req, res) => {
     newUser.save((err, data) => {
       if (err) res.json({err})
 
+      // console.log('SignUp success');
+      // console.log(data);
       res.json({
         status: true,
         data
@@ -28,59 +30,61 @@ methods.signUp = (req, res) => {
       message: 'Password length min 5 character'
     })
   }
+
+  // newUser.save((err, data) => {
+  //   if (err) res.json({err})
+  //   console.log('SignUp success');
+  //   console.log(data);;
+  //   res.send(data)
+  // })
 } //signup
 
 methods.signIn = (req, res) => {
   let pwd = req.body.password
-  if (req.body.username.length === 0) {
-    res.status(404).json({
-      status: false,
-      message: 'Username is required!'
-    })
-  } else {
-    User.findOne({
-      username: req.body.username
-    })
-    .then(record => {
-      if (req.body.password.length === 0) {
+  User.findOne({
+    username: req.body.username
+  })
+  .then(record => {
+    if (req.body.username !== record.username) {
         res.status(404).json({
           status: false,
-          message: 'Password is required!'
+          message: 'Please input the correct username!'
+        })
+    } else {
+      if (bCrypt.compareSync(pwd, record.password)) {
+        let token = jwt.sign({
+          id: record._id,
+          username: record.username,
+          email: record.email
+        }, process.env.SECRET_KEY, { expiresIn: '1d'})
+        // console.log('token login: '+token);
+        res.json({
+          message: 'SignIn success',
+          id: record._id,
+          username: record.username,
+          token
         })
       } else {
-        if (bCrypt.compareSync(pwd, record.password)) {
-          let token = jwt.sign({
-            id: record._id,
-            username: record.username,
-            email: record.email
-          }, process.env.SECRET_KEY, { expiresIn: '1d'})
-          res.json({
-            message: 'SignIn success',
-            id: record._id,
-            username: record.username,
-            token
-          })
-        } else {
-          res.status(404).json({
-            status: false,
-            message: 'Please input the correct password!'
-          })
-        }
+        res.status(404).json({
+          status: false,
+          message: 'Please input the correct password!'
+        })
       }
+    }
+  })
+  .catch(error => {
+    res.status(404).json({
+      status: false,
+      message: 'Please input the correct username and password!'
     })
-    .catch(error => {
-      res.status(404).json({
-        status: false,
-        message: 'Please input the correct username!'
-      })
-    })
-  }
-
+  })
 } //signin biasa
 
 methods.getAllUsers = (req, res) => {
   User.find({}, (err, records) => {
     if (err) res.json({err})
+    // console.log('Data all user success');
+    // console.log(records);
     res.json(records)
   })
 } // getAllUser
@@ -88,6 +92,8 @@ methods.getAllUsers = (req, res) => {
 methods.getUserById = (req, res) => {
   User.findById(req.params.id, (err, record) => {
     if (err) res.json({err})
+    // console.log('Detail User success');
+    // console.log(record);
     res.json(record)
   })
 } //getUserById
@@ -95,6 +101,8 @@ methods.getUserById = (req, res) => {
 methods.getHomeAddressGeolocation = (req, res) => {
   User.findById(req.params.id, (err, record) => {
     if (err) res.json({err})
+    // console.log('Detail User success');
+    // console.log(record.homeAddressGeolocation);
     res.json(record.homeAddressGeolocation)
   })
 } //getHomeAddressGeolocation
@@ -102,6 +110,8 @@ methods.getHomeAddressGeolocation = (req, res) => {
 methods.getOfficeAddressGeolocation = (req, res) => {
   User.findById(req.params.id, (err, record) => {
     if (err) res.json({err})
+    // console.log('Detail User success');
+    // console.log(record);
     res.json(record.officeAddressGeolocation)
   })
 } //getOfficeAddressGeolocation
@@ -111,6 +121,9 @@ methods.editUser = (req, res) => {
     User.findById(req.params.id)
     .exec((error, response) => {
       if (error) res.json({error})
+      // console.log(response._id);
+      // console.log('Masuk gakkk: '+ req.body.name);
+      // console.log('pwd hash di editUser:  '+bCrypt.hashSync(pwdUser, saltRounds));
       User.findByIdAndUpdate({
         "_id": response._id
       }, {
@@ -132,6 +145,7 @@ methods.editUser = (req, res) => {
       .exec((err, result) => {
         if (err) res.json({err})
         res.json(result)
+        // console.log('edit user success');
       })
     })
 } //editUser
@@ -150,6 +164,8 @@ methods.editUser = (req, res) => {
 methods.deleteUserById = (req, res) => {
     User.findByIdAndRemove(req.params.id, (err, record) => {
       if (err) res.json({err})
+      // console.log('Delete user success');
+      // console.log(record);
       res.json(record)
     })
 } //deleteUser
