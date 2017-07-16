@@ -20,6 +20,6 @@
   },
   "scripts": {
     "test": "NODE_ENV=test mocha",
-    "start": "node server.js"
+    "start": "nodemon server.js"
   }
 }
